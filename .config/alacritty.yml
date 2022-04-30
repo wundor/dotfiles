@@ -1,17 +1,17 @@
 font:
   normal:
-    family: PragmataPro Mono Liga
+    family: Iosevka Term
 
   bold:
-    family: PragmataPro Mono Liga
+    family: Iosevka Term
     style: Bold
 
   italic:
-    family: PragmataPro Mono Liga
+    family: Iosevka Term
     style: Italic
 
   bold_italic:
-    family: PragmataPro Mono Liga
+    family: Iosevka Term
     style: Bold Italic
 
   size: 10
