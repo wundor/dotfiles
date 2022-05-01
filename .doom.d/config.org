@@ -1,3 +1,70 @@
 #+title: Config
 
-* TODO kek pek
+* Foundation
+
+#+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+(setq user-full-name "WundoR"
+      user-mail-address "wundor@testchamber.one")
+#+end_src
+
+* UI
+** Interface
+
+Increase interface size
+#+begin_src emacs-lisp :tangle yes
+(set-face-attribute 'default nil :height 150)
+#+end_src
+
+Theme
+#+begin_src emacs-lisp :tangle yes
+(setq doom-theme 'doom-nord)
+#+end_src
+
+Set line numbers
+#+begin_src emacs-lisp :tangle yes
+(setq display-line-numbers-type t)
+#+end_src
+
+Vim scrolloff (sort of)
+#+begin_src emacs-lisp :tangle yes
+(setq scroll-margin 10)
+#+end_src
+
+Fix modeline cut off
+#+begin_src emacs-lisp :tangle yes
+(after! doom-modeline
+  (doom-modeline-def-modeline 'main
+    '(bar matches buffer-info remote-host buffer-position parrot selection-info)
+    '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "                    "))) ; <-- added padding here
+#+end_src
+
+Save buffers on focus change
+#+begin_src emacs-lisp :tangle yes
+(add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
+#+end_src
+
+** Fonts
+
+Default font
+#+begin_src emacs-lisp :tangle yes
+(setq doom-font (font-spec :family "Iosevka Term" :size 12 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Iosevka" :size 13)
+      doom-big-font (font-spec :family "Iosevka Term" :size 24))
+#+end_src
+
+Add support for italics
+#+begin_src emacs-lisp :tangle yes
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic))
+#+end_src
+
+* Extensions
+** org mode
+#+begin_src emacs-lisp :tangle yes
+(setq org-directory "~/org/")
+#+end_src
