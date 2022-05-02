@@ -14,6 +14,9 @@ local helpers = require("helpers")
 -- For mic widget
 require("sub.mic")
 
+local calendar_widget = require("lib.awesome-wm-widgets.calendar-widget.calendar")
+local batteryarc_widget = require("lib.awesome-wm-widgets.batteryarc-widget.batteryarc")
+
 -- Bar
 --------
 
@@ -307,12 +310,20 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.fixed.vertical
     }
 
+    local cw = calendar_widget({
+        theme = 'nord',
+        placement = 'top_center',
+        radius = 8,
+    })
+
     time:connect_signal("mouse::enter", function()
-        cal_tooltip_show()
+        -- cal_tooltip_show()
+        cw.toggle()
     end)
 
     time:connect_signal("mouse::leave", function()
-        cal_tooltip_hide()
+        -- cal_tooltip_hide()
+        cw.toggle()
     end)
 
     -- Separator
@@ -351,6 +362,9 @@ awful.screen.connect_for_each_screen(function(s)
                 locale,
                 separator,
                 layoutbox,
+                batteryarc_widget({
+                    show_current_level = true,
+                }),
                 separator,
                 mic_widget,
                 spacing = dpi(10),
