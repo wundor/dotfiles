@@ -1,4 +1,6 @@
 https://gitlab.tech.sitasys.com/dashboard/projects/starred Dashboard · GitLab
-https://sitasys-ag.awsapps.com/start/#/ Your applications
-https://sitasys.atlassian.net/jira/projects?selectedProjectType=software Projects - Jira
-https://sitasys.atlassian.net/wiki/spaces/WSC/overview?mode=global Welcome to Sitasys Confluence - Confluence
+https://sitasys-ag.awsapps.com/start/#/ aws
+https://sitasys.atlassian.net/jira/projects?selectedProjectType=software jira
+https://sitasys.atlassian.net/wiki/spaces/WSC/overview?mode=global confluence
+http://localhost:5000 fava beancount
+http://localhost:8384/ orion-hp | Syncthing

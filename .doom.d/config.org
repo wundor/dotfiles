@@ -44,13 +44,18 @@ Save buffers on focus change
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
 #+end_src
 
+Save buffers when leaving insert mode
+#+begin_src emacs-lisp :tangle yes
+(add-hook 'evil-insert-state-exit-hook (lambda () (save-some-buffers t)))
+#+end_src
+
 ** Fonts
 
 Default font
 #+begin_src emacs-lisp :tangle yes
-(setq doom-font (font-spec :family "Iosevka Term" :size 12 :weight 'semi-light)
+(setq doom-font (font-spec :family "Iosevka" :size 12 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Iosevka" :size 13)
-      doom-big-font (font-spec :family "Iosevka Term" :size 24))
+      doom-big-font (font-spec :family "Iosevka" :size 24))
 #+end_src
 
 Add support for italics
@@ -66,5 +71,45 @@ Add support for italics
 * Extensions
 ** org mode
 #+begin_src emacs-lisp :tangle yes
-(setq org-directory "~/org/")
+(setq org-directory "~/git/space/")
+#+end_src
+
+** org roam
+#+begin_src emacs-lisp :tangle yes
+(setq org-roam-directory "~/git/space/")
+#+end_src
+
+For better export
+#+begin_src emacs-lisp :tangle yes
+(require 'org-roam-export)
+#+end_src
+
+*** org roam ui
+https://github.com/org-roam/org-roam-ui
+#+begin_src emacs-lisp :tangle yes
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+#+end_src
+** journaling
+
+I use org-journal and org-roam-dailies in the same directory
+#+begin_src emacs-lisp :tangle yes
+(setq org-journal-file-format "%Y-%m-%d.org")
+(setq org-journal-date-format "%Y-%m-%d")
+(setq org-journal-enable-agenda-integration t)
+
+(setq org-roam-dailies-directory"journal/")
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         "* %<%H:%M> %?"
+         :target (file+head "%<%Y-%m-%d>.org"
+                            "#+title: %<%Y-%m-%d>\n"))))
 #+end_src
