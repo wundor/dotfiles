@@ -9,8 +9,8 @@
 
 (setq doom-theme 'doom-nord)
 
-(set-frame-parameter (selected-frame)'alpha '(90 . 90))
-(add-to-list 'default-frame-alist'(alpha . (90 . 90)))
+(set-frame-parameter (selected-frame)'alpha '(95 . 95))
+(add-to-list 'default-frame-alist'(alpha . (95 . 95)))
 
 (setq doom-font (font-spec :family "Iosevka" :size 20 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Iosevka" :size 21)
