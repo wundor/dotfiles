@@ -19,13 +19,14 @@ run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 python $HOME/.bin/mic-mute.py
 
-run $HOME/.bin/keyboard-setup.sh
-run $HOME/.bin/webcam-setup.sh
-run $HOME/.bin/mouse-setup.sh r
+$HOME/.bin/keyboard-setup.sh
+$HOME/.bin/webcam-setup.sh
+$HOME/.bin/mouse-setup.sh r
 run xbanish
 run flameshot
 run nextcloud
 run kdeconnect-indicator
+run emacs --daemon
 # for logitech receiver
 run solaar -w hide
 # for elecom huge buttons

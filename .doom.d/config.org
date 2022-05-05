@@ -1,7 +1,6 @@
 #+title: Config
 
 * Foundation
-
 #+begin_src emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 (setq user-full-name "WundoR"
@@ -10,56 +9,57 @@
 
 * UI
 ** Interface
+Increase interface size. I don't use it now because I have issues with it not evaluating at start for some reason
+#+begin_src emacs-lisp
+;; (after! doom-themes
+    ;; (set-face-attribute 'default nil :height 150)
+;; )
+#+end_src
 
-Increase interface size
-#+begin_src emacs-lisp :tangle yes
-(set-face-attribute 'default nil :height 150)
+Fix modeline cut off. Not needed ATM because I'm not using interface size increase
+#+begin_src emacs-lisp
+;; (after! doom-modeline
+;;   (doom-modeline-def-modeline 'main
+;;     '(bar matches buffer-info remote-host buffer-position parrot selection-info)
+;;     '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "                    "))) ; <-- added padding here
 #+end_src
 
 Theme
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (setq doom-theme 'doom-nord)
 #+end_src
 
 Set line numbers
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (setq display-line-numbers-type t)
 #+end_src
 
 Vim scrolloff (sort of)
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (setq scroll-margin 10)
 #+end_src
 
-Fix modeline cut off
-#+begin_src emacs-lisp :tangle yes
-(after! doom-modeline
-  (doom-modeline-def-modeline 'main
-    '(bar matches buffer-info remote-host buffer-position parrot selection-info)
-    '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "                    "))) ; <-- added padding here
-#+end_src
 
 Save buffers on focus change
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
 #+end_src
 
 Save buffers when leaving insert mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (add-hook 'evil-insert-state-exit-hook (lambda () (save-some-buffers t)))
 #+end_src
 
 ** Fonts
-
 Default font
-#+begin_src emacs-lisp :tangle yes
-(setq doom-font (font-spec :family "Iosevka" :size 12 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Iosevka" :size 13)
-      doom-big-font (font-spec :family "Iosevka" :size 24))
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "Iosevka" :size 20 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Iosevka" :size 21)
+      doom-big-font (font-spec :family "Iosevka" :size 34))
 #+end_src
 
 Add support for italics
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -70,46 +70,58 @@ Add support for italics
 
 * Extensions
 ** org mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (setq org-directory "~/git/space/")
+(after! org
+  (setq org-agenda-files (directory-files-recursively "~/git/space/org" "\\.org$"))
+  )
 #+end_src
 
 ** org roam
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (setq org-roam-directory "~/git/space/")
 #+end_src
 
 For better export
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (require 'org-roam-export)
 #+end_src
 
 *** org roam ui
 https://github.com/org-roam/org-roam-ui
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
 (use-package! websocket
-    :after org-roam)
+  :after org-roam)
 
 (use-package! org-roam-ui
-    :after org
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
+  :after org
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 #+end_src
+
 ** journaling
-
 I use org-journal and org-roam-dailies in the same directory
-#+begin_src emacs-lisp :tangle yes
-(setq org-journal-file-format "%Y-%m-%d.org")
-(setq org-journal-date-format "%Y-%m-%d")
-(setq org-journal-enable-agenda-integration t)
+#+begin_src emacs-lisp
+(after! org
+  (setq org-journal-file-format "%Y-%m-%d.org")
+  (setq org-journal-date-format "%Y-%m-%d")
+  (add-to-list 'org-agenda-files org-journal-dir)
+  (setq org-journal-enable-agenda-integration t)
+  (setq org-roam-dailies-directory "journal/")
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           "* %<%H:%M> %?"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n"))))
+  )
+#+end_src
 
-(setq org-roam-dailies-directory"journal/")
-(setq org-roam-dailies-capture-templates
-      '(("d" "default" entry
-         "* %<%H:%M> %?"
-         :target (file+head "%<%Y-%m-%d>.org"
-                            "#+title: %<%Y-%m-%d>\n"))))
+** beancount
+#+begin_src emacs-lisp
+(setq beancount-number-alignment-column 60)
+(setq lsp-beancount-langserver-executable "~/.cargo/bin/beancount-language-server")
+(setq lsp-beancount-journal-file "~/git/space/ledger/current.beancount")
 #+end_src

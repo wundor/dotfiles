@@ -8,3 +8,6 @@
   path = .config/awesome/lib/layout-machi
   url = https://github.com/xinhaoyuan/layout-machi
 
+[submodule ".config/awesome/lib/awesome-wm-widgets"]
+  path = .config/awesome/lib/awesome-wm-widgets
+  url = https://github.com/streetturtle/awesome-wm-widgets.git
