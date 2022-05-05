@@ -1,7 +1,3 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-(setq user-full-name "WundoR"
-      user-mail-address "wundor@testchamber.one")
-
 ;; (after! doom-themes
     ;; (set-face-attribute 'default nil :height 150)
 ;; )
@@ -13,13 +9,8 @@
 
 (setq doom-theme 'doom-nord)
 
-(setq display-line-numbers-type t)
-
-(setq scroll-margin 10)
-
-(add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
-
-(add-hook 'evil-insert-state-exit-hook (lambda () (save-some-buffers t)))
+(set-frame-parameter (selected-frame)'alpha '(90 . 90))
+(add-to-list 'default-frame-alist'(alpha . (90 . 90)))
 
 (setq doom-font (font-spec :family "Iosevka" :size 20 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Iosevka" :size 21)
@@ -32,6 +23,21 @@
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 
+(setq display-line-numbers-type t)
+
+(setq scroll-margin 10)
+
+(add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
+
+(add-hook 'evil-insert-state-exit-hook (lambda () (save-some-buffers t)))
+
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (consult-buffer))
+
 (setq org-directory "~/git/space/")
 (after! org
   (setq org-agenda-files (directory-files-recursively "~/git/space/org" "\\.org$"))
@@ -40,17 +46,6 @@
 (setq org-roam-directory "~/git/space/")
 
 (require 'org-roam-export)
-
-(use-package! websocket
-  :after org-roam)
-
-(use-package! org-roam-ui
-  :after org
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
 
 (after! org
   (setq org-journal-file-format "%Y-%m-%d.org")

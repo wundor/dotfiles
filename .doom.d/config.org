@@ -8,16 +8,16 @@
 #+end_src
 
 * UI
-** Interface
+** Eyecandy
 Increase interface size. I don't use it now because I have issues with it not evaluating at start for some reason
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 ;; (after! doom-themes
     ;; (set-face-attribute 'default nil :height 150)
 ;; )
 #+end_src
 
 Fix modeline cut off. Not needed ATM because I'm not using interface size increase
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 ;; (after! doom-modeline
 ;;   (doom-modeline-def-modeline 'main
 ;;     '(bar matches buffer-info remote-host buffer-position parrot selection-info)
@@ -25,41 +25,25 @@ Fix modeline cut off. Not needed ATM because I'm not using interface size increa
 #+end_src
 
 Theme
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 (setq doom-theme 'doom-nord)
 #+end_src
 
-Set line numbers
-#+begin_src emacs-lisp
-(setq display-line-numbers-type t)
+Transparency
+#+begin_src emacs-lisp :tangle yes
+(set-frame-parameter (selected-frame)'alpha '(90 . 90))
+(add-to-list 'default-frame-alist'(alpha . (90 . 90)))
 #+end_src
 
-Vim scrolloff (sort of)
-#+begin_src emacs-lisp
-(setq scroll-margin 10)
-#+end_src
-
-
-Save buffers on focus change
-#+begin_src emacs-lisp
-(add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
-#+end_src
-
-Save buffers when leaving insert mode
-#+begin_src emacs-lisp
-(add-hook 'evil-insert-state-exit-hook (lambda () (save-some-buffers t)))
-#+end_src
-
-** Fonts
 Default font
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 (setq doom-font (font-spec :family "Iosevka" :size 20 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Iosevka" :size 21)
       doom-big-font (font-spec :family "Iosevka" :size 34))
 #+end_src
 
 Add support for italics
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -68,9 +52,41 @@ Add support for italics
   '(font-lock-keyword-face :slant italic))
 #+end_src
 
+** Interface
+Set line numbers
+#+begin_src emacs-lisp :tangle yes
+(setq display-line-numbers-type t)
+#+end_src
+
+Vim scrolloff (sort of)
+#+begin_src emacs-lisp :tangle yes
+(setq scroll-margin 10)
+#+end_src
+
+
+Save buffers on focus change
+#+begin_src emacs-lisp :tangle yes
+(add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
+#+end_src
+
+Save buffers when leaving insert mode
+#+begin_src emacs-lisp :tangle yes
+(add-hook 'evil-insert-state-exit-hook (lambda () (save-some-buffers t)))
+#+end_src
+
+** Editor
+Prompt for file selector when openins split
+#+begin_src emacs-lisp :tangle yes
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (consult-buffer))
+#+end_src
 * Extensions
 ** org mode
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 (setq org-directory "~/git/space/")
 (after! org
   (setq org-agenda-files (directory-files-recursively "~/git/space/org" "\\.org$"))
@@ -78,12 +94,12 @@ Add support for italics
 #+end_src
 
 ** org roam
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 (setq org-roam-directory "~/git/space/")
 #+end_src
 
 For better export
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 (require 'org-roam-export)
 #+end_src
 
@@ -104,7 +120,7 @@ https://github.com/org-roam/org-roam-ui
 
 ** journaling
 I use org-journal and org-roam-dailies in the same directory
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 (after! org
   (setq org-journal-file-format "%Y-%m-%d.org")
   (setq org-journal-date-format "%Y-%m-%d")
@@ -120,7 +136,7 @@ I use org-journal and org-roam-dailies in the same directory
 #+end_src
 
 ** beancount
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 (setq beancount-number-alignment-column 60)
 (setq lsp-beancount-langserver-executable "~/.cargo/bin/beancount-language-server")
 (setq lsp-beancount-journal-file "~/git/space/ledger/current.beancount")
