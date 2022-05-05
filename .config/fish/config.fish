@@ -29,3 +29,18 @@ alias r="TERM=xterm-256color ranger"
 function gcb -d "Fuzzy-find and checkout a branch"
   git branch --all | grep -v HEAD | string trim | fzf | read -l result; and git checkout "$result"
 end
+
+
+function ranger
+  set tempfile (mktemp -t tmp.XXXXXX)
+  set command_argument "map Q chain shell echo %d > $tempfile; quitall"
+  command ranger --cmd="$command_argument" $argv
+  if test -s $tempfile
+   set ranger_pwd (cat $tempfile)
+   if test -n $ranger_pwd -a -d $ranger_pwd
+    builtin cd -- $ranger_pwd
+   end
+  end
+
+  command rm -f -- $tempfile
+end
