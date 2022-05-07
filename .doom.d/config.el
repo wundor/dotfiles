@@ -1,5 +1,5 @@
 ;; (after! doom-themes
-    ;; (set-face-attribute 'default nil :height 150)
+;; (set-face-attribute 'default nil :height 150)
 ;; )
 
 ;; (after! doom-modeline
@@ -40,18 +40,92 @@
 
 (setq org-directory "~/git/space/")
 (after! org
-  (setq org-agenda-files (directory-files-recursively "~/git/space/org" "\\.org$"))
+  (setq org-agenda-files (directory-files-recursively "~/git/space" "\\.org$"))
+  ;; (setq org-agenda-files (ignore-errors (directory-files +org-dir t "\\.org$" t)))
   )
+
+(setq org-habit-show-habits-only-for-today nil)
+(setq org-habit-graph-column 65)
+
+(org-super-agenda-mode)
+
+(setq org-agenda-skip-scheduled-if-done t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-include-deadlines t
+      org-agenda-block-separator nil
+      org-agenda-compact-blocks t
+      org-agenda-start-day nil ;; i.e. today
+      org-agenda-span 1
+      org-agenda-start-on-weekday nil)
+
+(setq org-agenda-custom-commands
+      '(("z" "Super view"
+         ((agenda "" ((org-agenda-overriding-header "")
+                      (org-super-agenda-groups
+                       '((:name "Today"
+                          :time-grid t
+                          :date today
+                          :order 1)
+                         ))))
+          (alltodo "" ((org-agenda-overriding-header "")
+                       (org-super-agenda-groups
+                        '(
+                          (:log t)
+                          (:name "WEEK"
+                           :property ("scope" "WEEK")
+                           :order 2)
+                          (:name "MONTH"
+                           :property ("scope" "MONTH")
+                           :order 3)
+                          (:name "YEAR"
+                           :property ("scope" "YEAR")
+                           :order 4)
+                          ))))
+          ))))
 
 (setq org-roam-directory "~/git/space/")
 
 (require 'org-roam-export)
 
+(defun calendar-helper () ;; doesn't have to be interactive
+  (cfw:open-calendar-buffer
+   :contents-sources
+   (list
+    (cfw:org-create-source "White")
+    (cfw:ical-create-source "Праздники" "https://calendar.google.com/calendar/ical/ru.russian%23holiday%40group.v.calendar.google.com/public/basic.ics" "Green")
+    (cfw:ical-create-source "WORK" "https://outlook.office365.com/owa/calendar/bf27cd7a8e5641539bc7a06ac19b82fd@orioninc.com/84df9ea52130447b9c6e7313c391fab19555198356456158305/S-1-8-1214364109-2325842782-3623989374-2310379573/reachcalendar.ics" "Purple")
+    )))
+(defun calendar-init ()
+  ;; switch to existing calendar buffer if applicable
+  (if-let (win (cl-find-if (lambda (b) (string-match-p "^\\*cfw:" (buffer-name b)))
+                           (doom-visible-windows)
+                           :key #'window-buffer))
+      (select-window win)
+    (calendar-helper)))
+(defun =my-calendar ()
+  "Activate (or switch to) *my* `calendar' in its workspace."
+  (interactive)
+  (if (featurep! :ui workspaces) ;; create workspace (if enabled)
+      (progn
+        (+workspace-switch "Calendar" t)
+        (doom/switch-to-scratch-buffer)
+        (calendar-init)
+        (+workspace/display))
+    (setq +calendar--wconf (current-window-configuration))
+    (delete-other-windows)
+    (switch-to-buffer (doom-fallback-buffer))
+    (calendar-init)))
+
+(setq calendar-week-start-day 1)
+
+(setq calendar-holidays nil)
+
 (after! org
   (setq org-journal-file-format "%Y-%m-%d.org")
   (setq org-journal-date-format "%Y-%m-%d")
-  (add-to-list 'org-agenda-files org-journal-dir)
-  (setq org-journal-enable-agenda-integration t)
+  ;; (add-to-list 'org-agenda-files org-journal-dir)
+  ;; (setq org-journal-enable-agenda-integration t)
+
   (setq org-roam-dailies-directory "journal/")
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry

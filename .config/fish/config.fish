@@ -7,6 +7,8 @@ export EDITOR=vim
 # to jump around
 zoxide init fish | source
 
+pyenv init - | source
+
 #######
 # FZF #
 #######

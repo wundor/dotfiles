@@ -249,6 +249,11 @@ end, {
 end, {
     description = "Emoji keyboard",
     group = "Misc"
+}), awful.key({super}, "p", function()
+    awful.util.spawn("bwmenu", false)
+end, {
+    description = "bitwarden cli",
+    group = "Misc"
 }), awful.key({}, "Print", function()
     awful.util.spawn("flameshot gui", false)
 end), -- Window switcher
@@ -342,7 +347,7 @@ awful.keyboard.append_global_keybindings({awful.key {
     modifiers = {super, ctrl},
     keygroup = "home_left",
     description = "Toggle tag",
-    group = "Tags",
+    group = "Tag",
     on_press = function(index)
         local screen = awful.screen.focused()
         local tag = screen.tags[index]
@@ -354,7 +359,7 @@ awful.keyboard.append_global_keybindings({awful.key {
     modifiers = {super, shift},
     keygroup = "home_left",
     description = "Move focused client to tag",
-    group = "Tags",
+    group = "Tag",
     on_press = function(index)
         if client.focus then
             local tag = client.focus.screen.tags[index]

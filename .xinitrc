@@ -13,4 +13,5 @@ for f in /etc/X11/xinit/xinitrc.d/*.sh; do
   source "$f"
 done
 dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY
+xsetroot -cursor_name left_ptr
 exec awesome
