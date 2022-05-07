@@ -47,6 +47,13 @@
 (setq org-habit-show-habits-only-for-today nil)
 (setq org-habit-graph-column 65)
 
+(setq org-log-into-drawer "LOGBOOK")
+
+(setq org-icalendar-combined-agenda-file "~/git/space/org/calendar.ics")
+;; (setq org-icalendar-include-todo t)
+;; (setq org-icalendar-use-scheduled (event-if-todo event-if-not-todo))
+;; (setq org-icalendar-use-deadline (event-if-todo event-if-not-todo))
+
 (org-super-agenda-mode)
 
 (setq org-agenda-skip-scheduled-if-done t
@@ -73,13 +80,20 @@
                           (:log t)
                           (:name "WEEK"
                            :property ("scope" "WEEK")
-                           :order 2)
+                           :order 3)
                           (:name "MONTH"
                            :property ("scope" "MONTH")
-                           :order 3)
+                           :order 4)
                           (:name "YEAR"
                            :property ("scope" "YEAR")
-                           :order 4)
+                           :order 5)
+                          (:name "📚backlog📚"
+                           :and (
+                                 :scheduled nil
+                                 :deadline nil
+                                 )
+                           :order 6)
+                          (:discard (:anything t))
                           ))))
           ))))
 

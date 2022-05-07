@@ -94,9 +94,22 @@ Prompt for file selector when openins split
   )
 #+end_src
 
+More habits
 #+begin_src emacs-lisp :tangle yes
 (setq org-habit-show-habits-only-for-today nil)
 (setq org-habit-graph-column 65)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(setq org-log-into-drawer "LOGBOOK")
+#+end_src
+
+ical file to export my org stuff to
+#+begin_src emacs-lisp :tangle yes
+(setq org-icalendar-combined-agenda-file "~/git/space/org/calendar.ics")
+;; (setq org-icalendar-include-todo t)
+;; (setq org-icalendar-use-scheduled (event-if-todo event-if-not-todo))
+;; (setq org-icalendar-use-deadline (event-if-todo event-if-not-todo))
 #+end_src
 *** org-super-agenda
 #+begin_src emacs-lisp :tangle yes
@@ -126,13 +139,20 @@ Prompt for file selector when openins split
                           (:log t)
                           (:name "WEEK"
                            :property ("scope" "WEEK")
-                           :order 2)
+                           :order 3)
                           (:name "MONTH"
                            :property ("scope" "MONTH")
-                           :order 3)
+                           :order 4)
                           (:name "YEAR"
                            :property ("scope" "YEAR")
-                           :order 4)
+                           :order 5)
+                          (:name "📚backlog📚"
+                           :and (
+                                 :scheduled nil
+                                 :deadline nil
+                                 )
+                           :order 6)
+                          (:discard (:anything t))
                           ))))
           ))))
 #+end_src
