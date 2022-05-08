@@ -89,7 +89,7 @@ Prompt for file selector when openins split
 #+begin_src emacs-lisp :tangle yes
 (setq org-directory "~/git/space/")
 (after! org
-  (setq org-agenda-files (directory-files-recursively "~/git/space" "\\.org$"))
+  (setq org-agenda-files (directory-files-recursively "~/git/space/org" "\\.org$"))
   ;; (setq org-agenda-files (ignore-errors (directory-files +org-dir t "\\.org$" t)))
   )
 #+end_src
@@ -111,6 +111,11 @@ ical file to export my org stuff to
 ;; (setq org-icalendar-use-scheduled (event-if-todo event-if-not-todo))
 ;; (setq org-icalendar-use-deadline (event-if-todo event-if-not-todo))
 #+end_src
+
+set timestamp when I mark task DONE
+#+begin_src emacs-lisp :tangle yes
+(setq org-log-done "time")
+#+end_src
 *** org-super-agenda
 #+begin_src emacs-lisp :tangle yes
 (org-super-agenda-mode)
@@ -123,39 +128,47 @@ ical file to export my org stuff to
       org-agenda-start-day nil ;; i.e. today
       org-agenda-span 1
       org-agenda-start-on-weekday nil)
+#+end_src
 
+For some reason super-agenda shows overdue items as 'other items'
+#+begin_src emacs-lisp :tangle yes
+(setq org-super-agenda-unmatched-name "🔥overdue🔥")
+#+end_src
+
+Custom agenda view for super agenda
+#+begin_src emacs-lisp :tangle yes
 (setq org-agenda-custom-commands
       '(("z" "Super view"
          ((agenda "" ((org-agenda-overriding-header "")
                       (org-super-agenda-groups
-                       '((:name "Today"
+                       '((:name "⏰ TODAY"
                           :time-grid t
                           :date today
-                          :order 1)
+                          )
                          ))))
           (alltodo "" ((org-agenda-overriding-header "")
                        (org-super-agenda-groups
                         '(
                           (:log t)
-                          (:name "WEEK"
-                           :property ("scope" "WEEK")
-                           :order 3)
-                          (:name "MONTH"
-                           :property ("scope" "MONTH")
-                           :order 4)
-                          (:name "YEAR"
-                           :property ("scope" "YEAR")
-                           :order 5)
-                          (:name "📚backlog📚"
+                          (:name "🚀 WEEK"
+                           :tag "WEEK"
+                           )
+                          (:name "📅 MONTH"
+                           :tag "MONTH"
+                           )
+                          (:name "🎯 YEAR"
+                           :tag "YEAR"
+                           )
+                          (:name "📚 BACKLOG 📚"
                            :and (
                                  :scheduled nil
                                  :deadline nil
                                  )
-                           :order 6)
+                           )
                           (:discard (:anything t))
                           ))))
           ))))
-#+end_src
+      #+end_src
 
 ** org roam
 #+begin_src emacs-lisp :tangle yes

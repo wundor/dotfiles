@@ -40,7 +40,7 @@
 
 (setq org-directory "~/git/space/")
 (after! org
-  (setq org-agenda-files (directory-files-recursively "~/git/space" "\\.org$"))
+  (setq org-agenda-files (directory-files-recursively "~/git/space/org" "\\.org$"))
   ;; (setq org-agenda-files (ignore-errors (directory-files +org-dir t "\\.org$" t)))
   )
 
@@ -54,6 +54,8 @@
 ;; (setq org-icalendar-use-scheduled (event-if-todo event-if-not-todo))
 ;; (setq org-icalendar-use-deadline (event-if-todo event-if-not-todo))
 
+(setq org-log-done "time")
+
 (org-super-agenda-mode)
 
 (setq org-agenda-skip-scheduled-if-done t
@@ -65,34 +67,36 @@
       org-agenda-span 1
       org-agenda-start-on-weekday nil)
 
+(setq org-super-agenda-unmatched-name "🔥overdue🔥")
+
 (setq org-agenda-custom-commands
       '(("z" "Super view"
          ((agenda "" ((org-agenda-overriding-header "")
                       (org-super-agenda-groups
-                       '((:name "Today"
+                       '((:name "⏰ TODAY"
                           :time-grid t
                           :date today
-                          :order 1)
+                          )
                          ))))
           (alltodo "" ((org-agenda-overriding-header "")
                        (org-super-agenda-groups
                         '(
                           (:log t)
-                          (:name "WEEK"
-                           :property ("scope" "WEEK")
-                           :order 3)
-                          (:name "MONTH"
-                           :property ("scope" "MONTH")
-                           :order 4)
-                          (:name "YEAR"
-                           :property ("scope" "YEAR")
-                           :order 5)
-                          (:name "📚backlog📚"
+                          (:name "🚀 WEEK"
+                           :tag "WEEK"
+                           )
+                          (:name "📅 MONTH"
+                           :tag "MONTH"
+                           )
+                          (:name "🎯 YEAR"
+                           :tag "YEAR"
+                           )
+                          (:name "📚 BACKLOG 📚"
                            :and (
                                  :scheduled nil
                                  :deadline nil
                                  )
-                           :order 6)
+                           )
                           (:discard (:anything t))
                           ))))
           ))))
