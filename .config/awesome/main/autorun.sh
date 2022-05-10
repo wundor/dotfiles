@@ -11,6 +11,8 @@ function run {
 # run mpd
 # run mpDris2 # add playerctl support to mpd
 
+sleep 10
+
 # compositor
 picom --experimental-backends
 
@@ -26,7 +28,6 @@ run xbanish
 run flameshot
 run nextcloud
 run kdeconnect-indicator
-run emacs --daemon
 # for logitech receiver
 run solaar -w hide
 # for elecom huge buttons
