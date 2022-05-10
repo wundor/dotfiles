@@ -56,6 +56,15 @@
 
 (setq org-log-done "time")
 
+(defun my/insert-custom-clock-entry ()
+  (interactive)
+  (insert "CLOCK: ")
+  (org-time-stamp-inactive)
+  (insert "--")
+  ;; Inserts the current time by default.
+  (let ((current-prefix-arg '(4))) (call-interactively 'org-time-stamp-inactive))
+  (org-ctrl-c-ctrl-c))
+
 (org-super-agenda-mode)
 
 (setq org-agenda-skip-scheduled-if-done t

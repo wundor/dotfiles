@@ -52,3 +52,6 @@
 (unpin! org-roam)
 (package! org-roam-ui)
 (package! org-super-agenda)
+(package! org-clock-helpers
+  :recipe (:repo "mskorzhinskiy/org-clock-helpers"
+           :host github :branch "main"))
