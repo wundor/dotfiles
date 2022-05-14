@@ -23,3 +23,15 @@ settings:
     https://www.reddit.com: false
   scrolling.smooth:
     global: true
+  statusbar.show:
+    global: in-mode
+  tabs.favicons.scale:
+    global: 1.1
+  tabs.indicator.width:
+    global: 3
+  tabs.position:
+    global: left
+  tabs.show:
+    global: multiple
+  tabs.width:
+    global: 35

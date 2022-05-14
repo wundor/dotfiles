@@ -14,7 +14,7 @@ function run {
 sleep 10
 
 # compositor
-picom --experimental-backends
+run picom --experimental-backends
 
 # auth
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1

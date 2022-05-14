@@ -49,21 +49,14 @@
 
 (setq org-log-into-drawer "LOGBOOK")
 
-(setq org-icalendar-combined-agenda-file "~/git/space/org/calendar.ics")
-;; (setq org-icalendar-include-todo t)
-;; (setq org-icalendar-use-scheduled (event-if-todo event-if-not-todo))
-;; (setq org-icalendar-use-deadline (event-if-todo event-if-not-todo))
-
 (setq org-log-done "time")
 
-(defun my/insert-custom-clock-entry ()
-  (interactive)
-  (insert "CLOCK: ")
-  (org-time-stamp-inactive)
-  (insert "--")
-  ;; Inserts the current time by default.
-  (let ((current-prefix-arg '(4))) (call-interactively 'org-time-stamp-inactive))
-  (org-ctrl-c-ctrl-c))
+(setq org-agenda-clockreport-parameter-plist '(:stepskip0 t :link t :maxlevel 2 :fileskip0 t))
+
+(map! :map org-mode-map
+      :localleader
+      (:prefix ("c" . "clock")
+       :desc "Insert past clock" "p" #'org-insert-past-clock))
 
 (org-super-agenda-mode)
 
@@ -77,6 +70,8 @@
       org-agenda-start-on-weekday nil)
 
 (setq org-super-agenda-unmatched-name "🔥overdue🔥")
+
+(setq org-tags-column -80)
 
 (setq org-agenda-custom-commands
       '(("z" "Super view"
@@ -110,9 +105,23 @@
                           ))))
           ))))
 
-(setq org-roam-directory "~/git/space/")
+(setq org-roam-directory "~/git/space/brain")
 
 (require 'org-roam-export)
+
+(setq org-icalendar-combined-agenda-file "~/git/space/org/calendar/all.ics")
+(setq org-icalendar-include-todo t)
+;; (setq org-icalendar-use-scheduled (event-if-todo event-if-not-todo))
+;; (setq org-icalendar-use-deadline (event-if-todo event-if-not-todo))
+
+(after! org
+  (setq org-caldav-url "https://cloud.testchamber.one/remote.php/dav/calendars/wunder")
+  (setq org-caldav-calendar-id "org")
+  (setq org-caldav-inbox "~/git/space/org/calendar/ical.org")
+  (setq org-caldav-files (directory-files "~/git/space/org" t "\\.org$"))
+  (setq org-icalendar-timezone "Europe/Moscow")
+  )
+(setq auth-sources '("~/.auth"))
 
 (defun calendar-helper () ;; doesn't have to be interactive
   (cfw:open-calendar-buffer
@@ -150,16 +159,18 @@
 (after! org
   (setq org-journal-file-format "%Y-%m-%d.org")
   (setq org-journal-date-format "%Y-%m-%d")
-  ;; (add-to-list 'org-agenda-files org-journal-dir)
-  ;; (setq org-journal-enable-agenda-integration t)
 
-  (setq org-roam-dailies-directory "journal/")
-  (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry
-           "* %<%H:%M> %?"
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n"))))
-  )
+(defun org-journal-find-location ()
+  ;; Open today's journal, but specify a non-nil prefix argument in order to
+  ;; inhibit inserting the heading; org-capture will insert the heading.
+  (org-journal-new-entry t)
+  (unless (eq org-journal-file-type 'daily)
+    (org-narrow-to-subtree))
+  (goto-char (point-max)))
+
+(setq org-capture-templates '(("j" "Journal entry" plain (function org-journal-find-location)
+                               "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
+                               :jump-to-captured t :immediate-finish t)))
 
 (setq beancount-number-alignment-column 60)
 (setq lsp-beancount-langserver-executable "~/.cargo/bin/beancount-language-server")
