@@ -159,6 +159,7 @@
 (after! org
   (setq org-journal-file-format "%Y-%m-%d.org")
   (setq org-journal-date-format "%Y-%m-%d")
+  )
 
 (defun org-journal-find-location ()
   ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -168,8 +169,9 @@
     (org-narrow-to-subtree))
   (goto-char (point-max)))
 
+(setq org-journal-file-header "* Главное: \n** Научился новому: \n** Улучшил: \n** Насладился: \n** Хорошее дело: ")
 (setq org-capture-templates '(("j" "Journal entry" plain (function org-journal-find-location)
-                               "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
+                               "** %(format-time-string org-journal-time-format) %?\n"
                                :jump-to-captured t :immediate-finish t)))
 
 (setq beancount-number-alignment-column 60)

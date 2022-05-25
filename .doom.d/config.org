@@ -270,11 +270,12 @@ Disable default holidays
 #+end_src
 
 ** journaling
-I use org-journal
+I use org-journal and org-roam-dailies in the same directory
 #+begin_src emacs-lisp :tangle yes
 (after! org
   (setq org-journal-file-format "%Y-%m-%d.org")
   (setq org-journal-date-format "%Y-%m-%d")
+  )
 #+end_src
 
 Create org-capture template for org-journal
@@ -287,8 +288,9 @@ Create org-capture template for org-journal
     (org-narrow-to-subtree))
   (goto-char (point-max)))
 
+(setq org-journal-file-header "* Главное: \n** Научился новому: \n** Улучшил: \n** Насладился: \n** Хорошее дело: ")
 (setq org-capture-templates '(("j" "Journal entry" plain (function org-journal-find-location)
-                               "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
+                               "** %(format-time-string org-journal-time-format) %?\n"
                                :jump-to-captured t :immediate-finish t)))
 #+end_src
 
