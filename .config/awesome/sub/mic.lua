@@ -11,11 +11,10 @@ function toggleMute()
     awful.spawn.easy_async('python ' .. home .. '/.bin/mic-mute.py', function(stdout, stderr, exitreason, exitcode)
         local micStat = tonumber(stdout)
         if (micStat == 0) then
-            -- mic_widget:set_text("❌")
-            mic_widget:set_text("🟢")
+            mic_widget:set_text("🟩")
         else
             -- naughty.notify({ text = "OFF" })
-            mic_widget:set_text("🔴")
+            mic_widget:set_text("🟥")
         end
     end)
 end

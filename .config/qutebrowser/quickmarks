@@ -1,2 +1,4 @@
 hub https://hub.lan.testchamber.one/
 jira https://sitasys.atlassian.net/jira/projects?selectedProjectType=software
+syncthing http://localhost:8384/
+fava http://localhost:5000/2022-ledger/income_statement/

@@ -362,9 +362,9 @@ awful.screen.connect_for_each_screen(function(s)
                 locale,
                 separator,
                 layoutbox,
-                batteryarc_widget({
-                    show_current_level = true,
-                }),
+                -- batteryarc_widget({
+                --     show_current_level = true,
+                -- }),
                 separator,
                 mic_widget,
                 spacing = dpi(10),

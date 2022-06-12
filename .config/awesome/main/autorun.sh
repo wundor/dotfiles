@@ -34,3 +34,4 @@ run solaar -w hide
 evrouter -q
 rm /tmp/.evrouter*
 run evrouter /dev/input/event*
+run redshift -P -O 3000
