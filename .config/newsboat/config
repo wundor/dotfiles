@@ -1,11 +1,14 @@
 include /usr/share/doc/newsboat/contrib/colorschemes/nord
 
 auto-reload yes
+browser "qutebrowser %u"
+feed-sort-order unreadarticlecount-asc
 
 urls-source "ttrss
 ttrss-url "https://rss.testchamber.one"
 ttrss-login "admin"
 ttrss-passwordfile "~/.ttrss_pass"
+ttrss-flag-star "s"
 
 # unbind keys
 unbind-key ENTER
