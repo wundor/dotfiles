@@ -78,3 +78,6 @@ If TEXT does not have a range, return nil."
        (calendar-gregorian-from-absolute
        (time-to-days
        (org-read-date nil t end-date))) text)))))))
+
+(package! org-hyperscheduler
+ :recipe (:host github :repo "dmitrym0/org-hyperscheduler"))

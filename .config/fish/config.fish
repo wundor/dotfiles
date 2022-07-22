@@ -29,7 +29,7 @@ alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 alias r="TERM=xterm-256color ranger"
 
 function gcb -d "Fuzzy-find and checkout a branch"
-  git branch --all | grep -v HEAD | string trim | fzf | read -l result; and git checkout "$result"
+  git fetch; and git branch --all | grep -v HEAD | string trim | fzf | awk -F/ '{print $NF}' | read -l result; and git switch "$result"; and git pull
 end
 
 

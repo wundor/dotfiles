@@ -7,6 +7,11 @@
       user-mail-address "wundor@testchamber.one")
 #+end_src
 
+set russian input method
+#+begin_src emacs-lisp :tangle yes
+(set-input-method "russian-computer")
+#+end_src
+
 * UI
 ** Eyecandy
 Increase interface size. I don't use it now because I have issues with it not evaluating at start for some reason
@@ -218,7 +223,7 @@ I use org-caldav to sync my org stuff with Nextcloud calendar
 #+begin_src emacs-lisp :tangle yes
 (after! org
   (setq org-caldav-url "https://cloud.testchamber.one/remote.php/dav/calendars/wunder")
-  (setq org-caldav-calendar-id "org")
+  (setq org-caldav-calendar-id "life")
   (setq org-caldav-inbox "~/git/space/org/calendar/ical.org")
   (setq org-caldav-files (directory-files "~/git/space/org" t "\\.org$"))
   (setq org-icalendar-timezone "Europe/Moscow")

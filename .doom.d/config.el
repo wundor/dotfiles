@@ -1,3 +1,5 @@
+(set-input-method "russian-computer")
+
 ;; (after! doom-themes
 ;; (set-face-attribute 'default nil :height 150)
 ;; )
@@ -116,7 +118,7 @@
 
 (after! org
   (setq org-caldav-url "https://cloud.testchamber.one/remote.php/dav/calendars/wunder")
-  (setq org-caldav-calendar-id "org")
+  (setq org-caldav-calendar-id "life")
   (setq org-caldav-inbox "~/git/space/org/calendar/ical.org")
   (setq org-caldav-files (directory-files "~/git/space/org" t "\\.org$"))
   (setq org-icalendar-timezone "Europe/Moscow")
